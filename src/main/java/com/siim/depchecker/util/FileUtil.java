@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class FileUtil {
 
-    private static final Set<String> providedGradleCheckTasks = new HashSet<>(Arrays.asList("compile", "provided"));
+    private static final Set<String> providedGradleCheckTasks = new HashSet<>(Arrays.asList("compile", "provided", "debugCompile", "retrolambdaConfig", "androidTestCompile"));
 
     public static Observable<Dependency> getDependecies(final String gradleBuildFilePath) {
         return readFile(gradleBuildFilePath)
@@ -20,11 +20,15 @@ public class FileUtil {
                     return providedGradleCheckTasks.contains(splitLine[0]);
                 })
                 .flatMap(line -> {
-                    String[] splitLine = line.trim().split("\\:");
-                    String groupId = splitLine[0].split("\\'")[1];
-                    String artifactId = splitLine[1];
-                    String version = splitLine[2].split("\\'")[0];
-                    return Observable.just(new Dependency(groupId, artifactId, version));
+                    try {
+                        String[] splitLine = line.trim().split("\\:");
+                        String groupId = splitLine[0].split("\\'")[1];
+                        String artifactId = splitLine[1];
+                        String version = splitLine[2].split("\\'")[0];
+                        return Observable.just(new Dependency(groupId, artifactId, version));
+                    } catch (Exception e) {
+                        return Observable.empty();
+                    }
                 });
     }
 
