@@ -8,6 +8,22 @@ task wrapper(type: Wrapper) {
   distributionUrl = 'http://services.gradle.org/distributions/gradle-2.2.1-all.zip'
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.siim.depchecker.Main'
+    }
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Version': version,
+                'Main-Class': 'com.siim.depchecker.Main'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
 repositories {
     mavenCentral()
 }

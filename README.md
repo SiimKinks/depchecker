@@ -6,13 +6,14 @@ Java command line tool that checks maven for newest versions of build.gradle dep
 Usage:
 --------
 ```
-./java -jar depchecker.jar <path to build.gradle>
+./java -jar depchecker-all-1.0.jar <path to build.gradle>
 ```
 
-Building:
+Building runnable jar:
 --------
 ```
-./gradlew jar
+./gradlew fatJar
 ```
+Jar will be located at build/libs
 
 __Note:__ you must use java 8 to build project
