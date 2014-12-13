@@ -10,9 +10,10 @@
 build/tmp
 build/classes
 build/dependency-cache
-
+.gradle
 local.properties
-
+.idea
+*.iml
 .DS_Store
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
